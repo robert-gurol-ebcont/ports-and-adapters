@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ApiFetchWeatherDataAdapterTest {
+public class ApiFetchWeatherDataAdapterTest {
 
     private static final String FILE_PATH = "src/test/resources/test-json-response.json";
 
