@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CsvExporterAdapter implements ExporterPort {
@@ -25,8 +26,11 @@ public class CsvExporterAdapter implements ExporterPort {
             .setRecordSeparator("\n")
             .build();
 
+    private static final String PATTERN_FORMAT = "yyyy-MM-dd_HH:mm:ss";
+
     private final Path outputDir;
     private final Clock clock;
+    private final DateTimeFormatter timeStampFormatter;
 
     public CsvExporterAdapter() {
         this(GlobalConfig.APP_OUTPUT_DIR, Clock.systemDefaultZone());
@@ -35,11 +39,14 @@ public class CsvExporterAdapter implements ExporterPort {
     public CsvExporterAdapter(Path outputDir, Clock clock) {
         this.outputDir = outputDir;
         this.clock = clock;
+        timeStampFormatter = DateTimeFormatter.ofPattern(PATTERN_FORMAT)
+                .withZone(clock.getZone());
     }
 
     @Override
     public void exportToNewFile(List<WeatherData> data) {
-        String fileName = "weather_data_" + Instant.now(clock).toString() + ".csv";
+        String timePart = timeStampFormatter.format(Instant.now(clock));
+        String fileName = "weather_data_" + timePart + ".csv";
         try {
             Path destination = Files.createFile(outputDir.resolve(fileName));
             exportThrowing(data, destination);

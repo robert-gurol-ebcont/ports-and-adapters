@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CsvExporterAdapterTest {
 
-    private static final Instant TEST_TIME = Instant.parse("2023-04-14T22:22:22.00+02:00");
+    private static final Instant TEST_TIME = Instant.parse("2023-04-14T22:23:24.00+02:00");
     private static final Clock TEST_CLOCK = Clock.fixed(TEST_TIME, ZoneId.of("Europe/Berlin"));
 
     @Test
@@ -24,7 +24,7 @@ public class CsvExporterAdapterTest {
         ExporterPort csvExporter = new CsvExporterAdapter(tempDir, TEST_CLOCK);
 
         csvExporter.exportToNewFile(inputData);
-        Path outputPath = tempDir.resolve("weather_data_2023-04-14T20:22:22Z.csv");
+        Path outputPath = tempDir.resolve("weather_data_2023-04-14_22:23:24.csv");
         assertThat(outputPath).exists();
         assertThat(outputPath).content().isEqualTo(
                 "id,name,date,time,temperature,pressure,wind_direction\n" +
