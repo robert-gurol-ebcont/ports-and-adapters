@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 public class ApiWeatherData {
 
     @JsonProperty("id")
-    long stationId;
+    private long stationId;
     @JsonProperty("name")
-    String stationName;
+    private String stationName;
     @JsonProperty("time")
-    String dateTime;
+    private String dateTime;
     @JsonProperty("T")
-    String airTemperature;
+    private String airTemperature;
     @JsonProperty("P")
-    String atmosphericPressure;
+    private String atmosphericPressure;
     @JsonProperty("D")
-    String windDirection;
+    private String windDirection;
 }

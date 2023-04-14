@@ -8,21 +8,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WeatherData {
-    long stationId;
-    String stationName;
-    String date;
-    String time;
+    private long stationId;
+    private String stationName;
+    private String date;
+    private String time;
     /**
      * Air airTemperature in centigrade
      */
-    String airTemperature;
+    private String airTemperature;
     /**
      * Atmospheric atmosphericPressure in hPa
      */
-    String atmosphericPressure;
+    private String atmosphericPressure;
 
     /**
      * Abbreviated, e.g. "E" or "NNW"
      */
-    String windDirection;
+    private String windDirection;
 }

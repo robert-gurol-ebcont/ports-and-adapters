@@ -20,7 +20,7 @@ public class ApiWeatherDataMapper {
 
     public WeatherData fromApiWeatherData(ApiWeatherData input) {
         WeatherData result = modelMapper.map(input, WeatherData.class);
-        String[] splitTimeStamp = input.dateTime.split(" ");
+        String[] splitTimeStamp = input.getDateTime().split(" ");
         if (splitTimeStamp.length > 1) {
             result.setDate(splitTimeStamp[0]);
             result.setTime(splitTimeStamp[1]);
