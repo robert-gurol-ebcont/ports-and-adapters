@@ -1,55 +1,26 @@
 package com.schmeisky.apikata;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.nio.charset.Charset;
-
-import java.util.List;
-import java.util.Map;
-
-import com.google.gson.Gson;
+import com.schmeisky.apikata.business.Application;
+import com.schmeisky.apikata.business.ExporterPort;
+import com.schmeisky.apikata.business.FetchWeatherDataPort;
+import com.schmeisky.apikata.infrastructure.apifetch.ApiFetchWeatherDataAdapter;
+import com.schmeisky.apikata.infrastructure.csvexport.CsvExporterAdapter;
+import com.schmeisky.apikata.infrastructure.trigger.SimpleTriggerAdapter;
 
 public class APIAccess {
 
     public static void main(final String[] args) {
-        try {
-            final URL url = new URL("http://apis.is/weather/observations/en?stations=1");
-            try(InputStream inputStream = url.openStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-            ) {
-                final Gson gson = new Gson();
-                final Result result = gson.fromJson(inputStreamReader, Result.class);
-                System.out.println(result);
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("unable to parse URL", e);
-        } catch (IOException e) {
-            throw new RuntimeException("unable to readData", e);
-        }
-    }
+        // system-outbound / driven adapters
+        FetchWeatherDataPort dataFetchAdapter = new ApiFetchWeatherDataAdapter();
+        ExporterPort csvExporter = new CsvExporterAdapter();
 
-    public static class Result {
+        // our system - depends on the above adapters to implement the driven ports
+        Application hexagonalArchitectureApplication = new Application(dataFetchAdapter, csvExporter);
 
-        List<Map<String, Object>> results;
+        // system-inbound / driving adapter -> the system implements the port!
+        SimpleTriggerAdapter trigger = new SimpleTriggerAdapter(hexagonalArchitectureApplication);
 
-        public Result(final List<Map<String, Object>> results) {
-            this.results = results;
-        }
-
-        public List<Map<String, Object>> getResults() {
-            return results;
-        }
-
-        @Override
-        public String toString() {
-            return "Result{" +
-                    "results=" + results +
-                    '}';
-        }
+        // to trigger the application to do any work, we need to go through the driving adapter
+        trigger.downloadTheWeather();
     }
 }
