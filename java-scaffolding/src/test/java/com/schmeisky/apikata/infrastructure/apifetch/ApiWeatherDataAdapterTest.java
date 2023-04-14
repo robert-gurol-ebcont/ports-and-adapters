@@ -24,13 +24,13 @@ class ApiFetchWeatherDataAdapterTest {
         assertThat(actual).hasSize(1);
         WeatherData dataSet = actual.get(0);
         try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
-            softly.assertThat(dataSet.stationId()).isEqualTo(1L);
-            softly.assertThat(dataSet.stationName()).isEqualTo("Reykjavík");
-            softly.assertThat(dataSet.date()).isEqualTo("2023-04-14");
-            softly.assertThat(dataSet.time()).isEqualTo("09:00:00");
-            softly.assertThat(dataSet.atmosphericPressure()).isEqualTo("1009");
-            softly.assertThat(dataSet.airTemperature()).isEqualTo("4.1");
-            softly.assertThat(dataSet.windDirection()).isEqualTo("E");
+            softly.assertThat(dataSet.getStationId()).isEqualTo(1L);
+            softly.assertThat(dataSet.getStationName()).isEqualTo("Reykjavík");
+            softly.assertThat(dataSet.getDate()).isEqualTo("2023-04-14");
+            softly.assertThat(dataSet.getTime()).isEqualTo("09:00:00");
+            softly.assertThat(dataSet.getAtmosphericPressure()).isEqualTo("1009");
+            softly.assertThat(dataSet.getAirTemperature()).isEqualTo("4.1");
+            softly.assertThat(dataSet.getWindDirection()).isEqualTo("E");
         }
     }
 }
